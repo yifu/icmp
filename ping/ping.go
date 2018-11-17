@@ -61,6 +61,7 @@ func main() {
 	if numRead <= 2 {
 		log.Fatal("Received a pkt too small: ", numRead, " long")
 	}
+	buf = buf[:numRead]
 
 	r := bytes.NewReader(buf[0:2])
 	var typ uint8
