@@ -10,10 +10,9 @@ import (
 )
 
 type icmpEcho struct {
-	typ, code          uint8
-	checksum           uint16
-	identifier, seqnum uint16
-	data               []byte
+	typ, code                    uint8
+	checksum, identifier, seqnum uint16
+	data                         []byte
 }
 
 func (pkt icmpEcho) String() string {
