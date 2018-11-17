@@ -79,6 +79,8 @@ func main() {
 
 func processIcmpEcho(buf []byte) {
 	var pkt icmpEcho
+	pkt.data = make([]byte, len(buf)-8)
+
 	r := bytes.NewReader(buf[:])
 	binary.Read(r, binary.BigEndian, &pkt.typ)
 	binary.Read(r, binary.BigEndian, &pkt.code)
