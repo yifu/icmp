@@ -90,4 +90,29 @@ func processIcmpEcho(buf []byte) {
 	binary.Read(r, binary.BigEndian, &pkt.data)
 
 	fmt.Println(pkt)
+
+	if !validChecksum(buf) {
+		return
+	}
+}
+
+func validChecksum(buf []byte) bool {
+	return computeChecksum(buf) == 0
+}
+
+func computeChecksum(buf []byte) uint8 {
+	var sum uint32
+	for i := 0; i < len(buf); i += 2 {
+		sum += uint32(binary.BigEndian.Uint16(buf[i:]))
+	}
+
+	if len(buf)%2 != 0 {
+		sum += uint32(buf[len(buf)-1])
+	}
+
+	for (sum >> 16) != 0 {
+		sum = (sum & 0xFFFF) + (sum >> 16)
+	}
+
+	return ^uint8(sum)
 }
